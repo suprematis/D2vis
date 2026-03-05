@@ -1,0 +1,24 @@
+# dynamic_conf.yml
+http:
+  routers:
+    api-router:
+      rule: "Host(`api.example.com`)"
+      service: api-service
+      entryPoints:
+        - websecure
+      middlewares:
+        - simple-auth
+
+  middlewares:
+    simple-auth:
+      basicAuth:
+        users:
+          - "test:$apr1$H6uskkkW$Igjt6uSpt6Y0P3rX.0B97."
+
+  services:
+    api-service:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.1.50:8080"
+          - url: "http://10.0.1.51:8080"
+
